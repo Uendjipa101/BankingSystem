@@ -1,5 +1,5 @@
 package model;
 
 public enum Role {
-    CUSTOMER, TELLER, ADMINISTRATOR;
+    CUSTOMER, BANK_TELLER, ADMINISTRATOR;
 }
