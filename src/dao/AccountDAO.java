@@ -100,7 +100,7 @@ public class AccountDAO {
         });
     }
 
-    // ---------- helpers ----------
+    // HELPER METHODS
     private Account queryOne(String sql, String... params) {
         List<Account> list = queryMany(sql, params);
         return list.isEmpty() ? null : list.get(0);
