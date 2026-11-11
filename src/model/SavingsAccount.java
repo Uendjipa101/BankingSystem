@@ -12,6 +12,11 @@ public class SavingsAccount extends Account implements InterestBearing{
         super(accountNumber,branch, dateOpened);
         this.lastInterestMonth = YearMonth.from(dateOpened);
     }
+
+    public SavingsAccount(String accountNumber,String branch, LocalDate dateOpened, double balance, List<Transaction> history, YearMonth lastInterestMonth) {
+        super(accountNumber,branch, dateOpened, balance, history);
+        this.lastInterestMonth = lastInterestMonth;
+    }
     @Override
     public double getInterestRate() {
         return INTEREST_RATE;

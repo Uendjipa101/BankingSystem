@@ -24,6 +24,11 @@ public abstract class Account {
         this.dateOpened = dateOpened;
         this.balance = 0.0;
     }
+    protected Account(String accountNumber, String branch, LocalDate dateOpened, double balance, List<Transaction> history) {
+        this(accountNumber, branch, dateOpened);
+        this.balance = balance;
+        this.transactions.addAll(history);
+    }
 
     public final void deposit(double amount) {
         deposit(amount, "Deposit");

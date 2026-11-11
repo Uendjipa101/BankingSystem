@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ChequeAccount extends Account implements Withdrawable{
     private final EmploymentDetails employmentDetails;
@@ -11,6 +12,15 @@ public class ChequeAccount extends Account implements Withdrawable{
             throw new IllegalArgumentException(
                     "A cheque account requires the customer's employment details"
             );
+        }
+        this.employmentDetails = employmentDetails;
+    }
+
+    public ChequeAccount(String accountNumber, String branch, LocalDate dateOpened, double balance, List<Transaction> history, EmploymentDetails employmentDetails) {
+        super(accountNumber, branch, dateOpened, balance, history);
+        if (employmentDetails == null){
+            throw new IllegalArgumentException("A Cheque account requires the customer's employment details");
+
         }
         this.employmentDetails = employmentDetails;
     }

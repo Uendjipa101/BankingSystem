@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.List;
 
 public class InvestmentAccount extends Account implements InterestBearing, Withdrawable{
     public final double INTEREST_RATE = 0.05;
@@ -15,6 +16,11 @@ public class InvestmentAccount extends Account implements InterestBearing, Withd
         }
         this.lastInterestMonth = YearMonth.from(dateOpened);
         deposit(initialDeposit, "Opening deposit");
+    }
+
+    public InvestmentAccount(String accountNumber, String branch, LocalDate dateOpened, double balance, List<Transaction> history, YearMonth lastInterestMonth) {
+        super(accountNumber, branch, dateOpened, balance, history);
+        this.lastInterestMonth = lastInterestMonth;
     }
 
         @Override
