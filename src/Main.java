@@ -1,41 +1,30 @@
-import dao.AccountDAO;
+import controller.*;
 import dao.DatabaseConnection;
 import dao.SampleData;
-import dao.UserDAO;
-import model.Account;
-import model.Customer;
-import model.InterestBearing;
-import model.User;
-
-import java.time.YearMonth;
+import model.*;
 
 public class Main {
     public static void main(String[] args) {
         DatabaseConnection.initialise();
         SampleData.loadIfEmpty();
+        System.out.println("Interest entries credited: " + new InterestController().payDueInterest());
 
-        UserDAO users = new UserDAO();
-        User u = users.findByUsername("neo");
-        System.out.println(u.getDisplayName() + " logs in: " + u.authenticate("password123"));
+        Session session = new Session();
+        LoginController login = new LoginController(session);
 
-        Customer neo = (Customer) u;
-        for (Account a : neo.getAccounts()) {
-            System.out.println("  " + a);
-        }
+        login.login("neo", "password123");
+        TransactionController tx = new TransactionController(session);
+        for (Account a : tx.myAccounts()) System.out.println("  " + a);
+        String savings = tx.myAccounts().get(0).getAccountNumber();
+        Account acc = tx.deposit(savings, 500);
+        System.out.print(new ReceiptController().latestReceipt(acc));
+        try { tx.withdraw(savings, 10); } catch (BankException e) { System.out.println(e.getMessage()); }
+        login.logout();
 
-        AccountDAO accounts = new AccountDAO();
-        Account savings = neo.getAccounts().get(0);
-        savings.deposit(250);
-        accounts.update(savings);
-
-        Account reloaded = accounts.findByAccountNumber(savings.getAccountNumber());
-        System.out.println("Reloaded: " + reloaded + " (" + reloaded.getTransactions().size() + " transactions)");
-
-        if (reloaded instanceof InterestBearing ib) {
-            ib.payInterest(YearMonth.now());
-            accounts.update(reloaded);
-            System.out.println("After interest: " + reloaded);
-        }
-        System.out.println(users.findAllCustomers().size() + " customers in the database");
+        login.login("teller", "password123");
+        RegistrationController reg = new RegistrationController(session);
+        IndividualCustomer c = reg.registerIndividual("demo" + System.currentTimeMillis() % 10000,
+                "secret1", "Demo", "Person", "Plot 1", "70000000", "999999999");
+        System.out.println("Opened " + reg.openInvestment(c.getUserId(), "Gaborone", 600));
     }
 }
