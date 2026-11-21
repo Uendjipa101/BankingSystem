@@ -3,6 +3,7 @@ package controller;
 import dao.AccountDAO;
 import dao.UserDAO;
 import model.*;
+import java.util.List;
 
 import java.time.LocalDate;
 
@@ -49,6 +50,10 @@ public class RegistrationController {
         Customer customer = findCustomer(customerId);
         EmploymentDetails job = new EmploymentDetails(companyName, companyAddress);
         return save(customer, new ChequeAccount(accounts.nextAccountNumber(), branch, LocalDate.now(), job));
+    }
+    public List<User> listCustomers(){
+        session.requireRole(Role.TELLER);
+        return users.findAllCustomers();
     }
 
     private Customer findCustomer(String customerId) {
