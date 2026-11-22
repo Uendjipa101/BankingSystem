@@ -33,7 +33,7 @@ public class IntegrationTest {
             action.run();
             check(name + " (should have been refused)", false);
         } catch (RuntimeException e) {
-            check(name + " -> \"" + e.getMessage() + "\"", false);
+            check(name + " -> \"" + e.getMessage() + "\"", true);
         }
     }
 
