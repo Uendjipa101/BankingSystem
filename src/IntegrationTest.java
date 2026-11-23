@@ -51,7 +51,7 @@ public class IntegrationTest {
 
         System.out.println("--- Database ---");
         check("Database holds at least 10 sample customers", users.findAllCustomers().size() >=10);
-        check("Datebase holds at least 10 accounts", accounts.findAll().size() >=10);
+        check("Database holds at least 10 accounts", accounts.findAll().size() >=10);
 
         System.out.println("--- Monthly Interest ---");
         InterestController interest = new InterestController();
